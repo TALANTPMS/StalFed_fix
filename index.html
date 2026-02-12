@@ -114,6 +114,24 @@
             </div>
         </div>
     </footer>
+    <!-- Модальное окно "Заказать звонок" -->
+    <div class="modal-overlay" id="callModal">
+        <div class="modal">
+            <button class="modal-close" id="modalClose">&times;</button>
+            <h3 class="modal-title">Закажите обратный звонок<br>и мы свяжемся с вами</h3>
+            <form class="modal-form" id="callForm">
+                <input type="text" class="modal-input" placeholder="Ваше имя" required>
+                <input type="tel" class="modal-input" placeholder="Ваш телефон" required>
+                <button type="submit" class="modal-submit-btn">Заказать</button>
+                <label class="modal-checkbox-label">
+                    <input type="checkbox" class="modal-checkbox" required>
+                    <span>Я принимаю условия</span>
+                </label>
+                <a href="#" class="modal-policy-link">Политики конфиденциальности</a>
+            </form>
+        </div>
+    </div>
+
     <!-- Cookie Banner -->
     <div class="cookie-banner" id="cookieBanner">
         <div class="cookie-banner-content">

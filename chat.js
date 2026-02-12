@@ -12,6 +12,16 @@ const chatMessages = document.getElementById('chatMessages');
 const sendBtn = document.getElementById('sendBtn');
 const chatWindow = document.querySelector('.chat-window');
 
+// Рингтон для сообщений
+const ringtone = new Audio('ringtone.mp3');
+
+function playRingtone() {
+    // Останавливаем предыдущее воспроизведение чтобы не было наложений
+    ringtone.pause();
+    ringtone.currentTime = 0;
+    ringtone.play().catch(() => {}); // catch на случай если браузер блокирует автозвук
+}
+
 // История сообщений для контекста
 let messageHistory = [];
 let systemPrompt = '';
@@ -93,6 +103,9 @@ document.addEventListener('DOMContentLoaded', async () => {
     
     // Cookie Banner
     initCookieBanner();
+
+    // Модалка "Заказать звонок"
+    initCallModal();
     
     // Загружаем системный промпт
     await loadSystemPrompt();
@@ -115,6 +128,61 @@ function initCookieBanner() {
         banner.style.opacity = '0';
         setTimeout(() => { banner.style.display = 'none'; }, 300);
     });
+}
+
+// Модалка "Заказать звонок"
+function initCallModal() {
+    const modal = document.getElementById('callModal');
+    const closeBtn = document.getElementById('modalClose');
+    const openBtns = document.querySelectorAll('[data-remodal-target="modal-form-call"]');
+    const form = document.getElementById('callForm');
+
+    if (!modal) return;
+
+    // Открытие модалки
+    openBtns.forEach(btn => {
+        btn.addEventListener('click', (e) => {
+            e.preventDefault();
+            modal.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        });
+    });
+
+    // Закрытие по крестику
+    if (closeBtn) {
+        closeBtn.addEventListener('click', () => {
+            modal.classList.remove('active');
+            document.body.style.overflow = '';
+        });
+    }
+
+    // Закрытие по клику на оверлей
+    modal.addEventListener('click', (e) => {
+        if (e.target === modal) {
+            modal.classList.remove('active');
+            document.body.style.overflow = '';
+        }
+    });
+
+    // Закрытие по Escape
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && modal.classList.contains('active')) {
+            modal.classList.remove('active');
+            document.body.style.overflow = '';
+        }
+    });
+
+    // Обработка формы
+    if (form) {
+        form.addEventListener('submit', (e) => {
+            e.preventDefault();
+            // Здесь можно добавить отправку данных на сервер
+            alert('Спасибо! Мы свяжемся с вами в ближайшее время.');
+            modal.classList.remove('active');
+            document.body.style.overflow = '';
+            form.reset();
+        });
+    }
 }
 
 // Обработка отправки формы
@@ -307,6 +375,9 @@ async function addBotMessage(text, existingLoader) {
         // Ждём задержку, затем убираем индикатор
         await sleep(item.delay);
         removeLoadingMessage(loader);
+        
+        // Звук при появлении сообщения
+        playRingtone();
         
         // Выводим элемент
         if (item.type === 'text') {
