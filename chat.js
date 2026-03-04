@@ -275,6 +275,16 @@ function initRemodals() {
         document.body.classList.add('remodal-is-opened');
     }
 
+    const outsideClickClosableIds = new Set(['privacy', 'ai-terms', 'personal-data']);
+    remodals.forEach((modal) => {
+        modal.addEventListener('click', (event) => {
+            if (!activeModal || activeModal !== modal) return;
+            if (!outsideClickClosableIds.has(modal.dataset.remodalId)) return;
+            if (event.target !== modal) return;
+            closeActiveModal();
+        });
+    });
+
     document.addEventListener('click', (event) => {
         const target = event.target instanceof Element ? event.target : event.target?.parentElement;
         if (!target) return;
@@ -1149,8 +1159,8 @@ function scrollPageToChatBottom() {
         }
 
         const isLongScroll = Math.abs(distance) > 520;
-        const factor = isLongScroll ? 0.32 : 0.22;
-        const minStep = isLongScroll ? 2.5 : 1;
+        const factor = isLongScroll ? 0.16 : 0.12;
+        const minStep = isLongScroll ? 1.2 : 0.6;
         const rawDelta = distance * factor;
         const delta = Math.sign(distance) * Math.max(minStep, Math.abs(rawDelta));
         const next = current + delta;
