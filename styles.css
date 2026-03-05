@@ -114,18 +114,15 @@ body {
 }
 
 .main-logo {
-    width: 145px;
-    height: 40px;
-    object-fit: contain;
     margin-top: 5px;
     margin-bottom: 5px;
-
 }
 
 .main-logo img {
     display: block;
-    width: 145px;      /* или любой нужный размер */
-    height: auto;      /* чтобы не тянуть по высоте */
+    width: 100%;
+    height: auto;
+    max-width: 145px; /* базовый размер на мобилках */
 }
 
 .phone-number {
@@ -1357,6 +1354,9 @@ body {
         width: 145px;
     }
 
+    .main-logo img {
+        max-width: 164px;
+    }
     
 
     .header-right {
@@ -1702,6 +1702,10 @@ body {
         width: 164px;
     }
 
+    .main-logo img {
+        max-width: 208px;
+    }
+
     .payment {
         font-size: 32px;
     }
@@ -2031,6 +2035,9 @@ body {
 
     .main-logo {
         width: 208px;
+    }
+    .main-logo img {
+        max-width: 232px;
     }
 
     .header-right {
