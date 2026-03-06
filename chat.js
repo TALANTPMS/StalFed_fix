@@ -18,7 +18,7 @@ let chatWindowBaseMinHeight = 400;
 let pageScrollAnimationFrameId = null;
 let pageScrollTargetY = 0;
 let isUserNearChatBottom = true;
-let initialChatAutoScrollDone = false;
+let isChatAutoScrollEnabled = false;
 
 // Рингтон для сообщений
 const ringtone = new Audio('sounds/ringtone.mp3');
@@ -234,6 +234,10 @@ function initChatScrollBehavior() {
 
     window.addEventListener('scroll', updateFlag, { passive: true });
     updateFlag();
+}
+
+function enableChatAutoScroll() {
+    isChatAutoScrollEnabled = true;
 }
 
 function initializeChatSizingState() {
@@ -515,6 +519,9 @@ async function handleSubmit(e) {
     
     const userMessage = chatInput.value.trim();
     if (!userMessage) return;
+
+    // Автоскролл разрешаем только после первого осознанного действия в чате.
+    enableChatAutoScroll();
     
     // Очищаем поле ввода
     chatInput.value = '';
@@ -835,6 +842,7 @@ function showStartQuestions() {
         questionBtn.className = 'start-question-btn';
         questionBtn.textContent = question;
         questionBtn.addEventListener('click', () => {
+            enableChatAutoScroll();
             // Добавляем выбранный вопрос как сообщение пользователя
             addUserMessage(question);
             messageHistory.push({ role: 'user', content: question });
@@ -871,6 +879,7 @@ function showButtons(options) {
         button.className = 'option-button';
         button.textContent = option;
         button.addEventListener('click', () => {
+            enableChatAutoScroll();
             // Добавляем выбранную опцию как сообщение пользователя
             addUserMessage(option);
             messageHistory.push({ role: 'user', content: option });
@@ -906,6 +915,7 @@ function showMessengerOptions() {
         button.className = 'messenger-button';
         button.textContent = messenger;
         button.addEventListener('click', () => {
+            enableChatAutoScroll();
             // Добавляем выбранный мессенджер как сообщение пользователя
             addUserMessage(messenger);
             messageHistory.push({ role: 'user', content: messenger });
@@ -1154,18 +1164,13 @@ function getCurrentTime() {
 }
 
 // Прокрутка вниз
-function scrollToBottom(force = false) {
-    // Первый автоскролл — всегда выполняем,
-    // чтобы при открытии страницы показать окно чата.
-    if (!initialChatAutoScrollDone) {
-        initialChatAutoScrollDone = true;
-        scrollPageToChatBottom();
-        return;
-    }
+function scrollToBottom() {
+    // До первого действия пользователя автоскролл полностью выключен.
+    if (!isChatAutoScrollEnabled) return;
 
-    // Дальше скроллим только если пользователь сам "у низа"
-    // или явно передан флаг force.
-    if (!isUserNearChatBottom && !force) return;
+    // Когда автоскролл уже включен, не дергаем страницу,
+    // если пользователь ушел читать сообщения выше.
+    if (!isUserNearChatBottom) return;
     scrollPageToChatBottom();
 }
 

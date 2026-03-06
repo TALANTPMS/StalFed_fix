@@ -412,7 +412,7 @@ body {
 }
 
 .message-user .message-content {
-    background-color: #903b00;
+    background-color: #587560;
     color: white;
     border-bottom-right-radius: 4px;
     font-family: "Montserrat-Medium";
@@ -624,7 +624,6 @@ body {
 }
 
 .option-button:hover {
-    font-family: "Montserrat-SemiBold", sans-serif;
     background-color: #2C72C7;
     border: 1px solid #2C72C7;
     color: #ffffff;
@@ -658,7 +657,6 @@ body {
 }
 
 .messenger-button:hover {
-    font-family: "Montserrat-SemiBold", sans-serif;
     background-color: #2C72C7;
     border: 1px solid #2C72C7;
     color: #ffffff;
