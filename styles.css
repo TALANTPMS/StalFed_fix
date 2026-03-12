@@ -1319,7 +1319,7 @@ body {
     }
 
     .text-content {
-        margin-bottom: 80px;
+        margin-bottom: 36px;
         align-items:flex-start;
     }
 
@@ -1629,7 +1629,7 @@ body {
     }
 
     .text-content {
-        margin-bottom: 50px;
+        margin-bottom: 30px;
         align-items:flex-start;
     }
 
@@ -1693,6 +1693,7 @@ body {
     }
 
     .hero {
+        margin-top: 40px;
         width: 399px;
         top: 52px;
         left: 520px;
@@ -2024,7 +2025,7 @@ body {
     }
 
     .text-content {
-        margin-bottom: 60px;
+        margin-bottom: 20px;
     }
 
     .connection-button {
